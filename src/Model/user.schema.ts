@@ -6,7 +6,7 @@ export type UserDocument = User & Document;
 export class User {
   @Prop({ required: true, unique: true })
   sID: number;
-  @Prop({ required: true, lowercase: true })
+  @Prop({ required: true, unique: true, lowercase: true })
   email: string;
   @Prop({ required: true })
   fName: string;
