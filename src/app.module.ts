@@ -1,6 +1,7 @@
-import { Module } from '@nestjs/common';
+import { Module, RequestMethod, MiddlewareConsumer } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { isAuthenticated } from './app.middleware';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from './model/user.schema';
 import { ServeStaticModule } from '@nestjs/serve-static';
@@ -26,4 +27,13 @@ import { join } from 'path/posix';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+
+// Setup middleware for route protection
+export class AppModule {
+  // configure(consumer: MiddlewareConsumer) {
+  //   consumer
+  //     .apply(isAuthenticated)
+  //     .exclude({ path: '', method: RequestMethod.GET })
+  //     .forRoutes();
+  // }
+}
