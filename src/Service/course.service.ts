@@ -5,11 +5,12 @@ import { Course, CourseDocument } from '../model/course.schema';
 
 @Injectable()
 export class CourseService {
-  constructor(@InjectModel(Course.name) private courseModel: Model<CourseDocument>) {}
-  
+  constructor(
+    @InjectModel(Course.name) private courseModel: Model<CourseDocument>,
+  ) {}
+
   async createCourse(course: Course): Promise<Course> {
     const newCourse = new this.courseModel(course);
-
     return newCourse.save();
   }
 

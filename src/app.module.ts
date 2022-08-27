@@ -1,6 +1,8 @@
 import { Module, RequestMethod, MiddlewareConsumer } from '@nestjs/common';
 import { AppController } from './app.controller';
+import { CourseController } from './Controller/course.controller';
 import { AppService } from './app.service';
+import { CourseService } from './service/course.service';
 import { isAuthenticated } from './app.middleware';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from './model/user.schema';
@@ -10,12 +12,24 @@ import { secret } from './utils/constants';
 import { join } from 'path/posix';
 import { UserController } from './Controller/user.controller';
 import { UserService } from './service/user.service';
+import { Course, CourseSchema } from './model/course.schema';
+import { PaperController } from './Controller/paper.controller';
+import { PaperService } from './Service/paper.service';
+import { Paper, PaperSchema } from './Model/paper.schema';
+import { SolutionController } from './Controller/solution.controller';
+import { SolutionService } from './Service/solution.service';
+import { Solution, SolutionSchema } from './Model/solution.schema';
 
 @Module({
   imports: [
     // Mongo config
     MongooseModule.forRoot('mongodb://localhost:27017/Stream'),
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    MongooseModule.forFeature([{ name: Course.name, schema: CourseSchema }]),
+    MongooseModule.forFeature([{ name: Paper.name, schema: PaperSchema }]),
+    MongooseModule.forFeature([
+      { name: Solution.name, schema: SolutionSchema },
+    ]),
 
     // Auth config
     JwtModule.register({
@@ -27,8 +41,20 @@ import { UserService } from './service/user.service';
     }),
   ],
   // Provide controller and services
-  controllers: [AppController, UserController],
-  providers: [AppService, UserService],
+  controllers: [
+    AppController,
+    UserController,
+    CourseController,
+    PaperController,
+    SolutionController,
+  ],
+  providers: [
+    AppService,
+    UserService,
+    CourseService,
+    PaperService,
+    SolutionService,
+  ],
 })
 
 // Setup middleware for route protection

@@ -1,21 +1,17 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import * as mongoose from 'mongoose';
+import { Course } from './course.schema';
 
 export type PaperDocument = Paper & Document;
 
 @Schema()
 export class Paper {
-  @Prop({ required: true, unique: true })
-  ID: number;
-  @Prop({ required: true, unique: true, lowercase: true })
-  email: string;
   @Prop({ required: true })
-  fName: string;
+  year: Date;
   @Prop({ required: true })
-  lName: string;
-  @Prop({ required: true })
-  password: string;
-  @Prop()
-  courses: string[];
+  semester: number;
+  @Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: 'Course' })
+  course: Course;
   @Prop({ default: Date.now() })
   createdDate: Date;
 }

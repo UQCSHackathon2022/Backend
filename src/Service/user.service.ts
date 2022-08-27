@@ -4,6 +4,8 @@ import { Model } from 'mongoose';
 import { User, UserDocument } from '../model/user.schema';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { Course, CourseDocument } from 'src/model/course.schema';
+import { CourseService } from './course.service';
 
 @Injectable()
 export class UserService {
@@ -24,6 +26,7 @@ export class UserService {
 
     // Generate a new user object and save to DB
     const newUser = new this.userModel(reqBody);
+    console.log(newUser);
     return newUser.save();
   }
 
@@ -56,7 +59,20 @@ export class UserService {
     );
   }
 
-  async getOne(email): Promise<User> {
+  async getOne(email: string): Promise<User> {
     return await this.userModel.findOne({ email }).exec();
+  }
+
+  async AddCourse(user: User, courses): Promise<User> {
+    console.log('user:' + user);
+
+    for (let i = 0; i < courses.length; i++) {
+      courses[i] = courses[i].course._id;
+    }
+
+    return await this.userModel.findOneAndUpdate(
+      { email: user.email },
+      { courses: courses },
+    );
   }
 }
