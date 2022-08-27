@@ -8,6 +8,8 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { JwtModule } from '@nestjs/jwt';
 import { secret } from './utils/constants';
 import { join } from 'path/posix';
+import { UserController } from './Controller/user.controller';
+import { UserService } from './service/user.service';
 
 @Module({
   imports: [
@@ -24,8 +26,9 @@ import { join } from 'path/posix';
       rootPath: join(__dirname, '..', 'public'),
     }),
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  // Provide controller and services
+  controllers: [AppController, UserController],
+  providers: [AppService, UserService],
 })
 
 // Setup middleware for route protection
